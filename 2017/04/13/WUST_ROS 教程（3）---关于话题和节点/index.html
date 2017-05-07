@@ -1,0 +1,1328 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=1.0.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ros," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://omwknzx14.bkt.clouddn.com/b.ico?v=1.0.0" />
+
+
+
+
+
+
+<meta name="description" content="1 名词解释1.1 节点（node）节点都是各自独立的可执行文件。它主要执行计算处理，能够通过话题，服务或参数服务器与其他进程（节点）通信。  
+ROS被设计为细粒度的模块化的系统：一个机器人控制系统通常有很多节点主持人组成。  
+ ROS通过使用节点将代码和功能解耦，提高了系统容错能力和可维护性，使系统简化。
+1.2 话题（topic）话题是节点间数据传输的总线。通过主题进行消息交流，不需要直">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WUST_ROS教程（3）---关于话题和节点">
+<meta property="og:url" content="http://zuoly.me/2017/04/13/WUST_ROS 教程（3）---关于话题和节点/index.html">
+<meta property="og:site_name" content="奔。">
+<meta property="og:description" content="1 名词解释1.1 节点（node）节点都是各自独立的可执行文件。它主要执行计算处理，能够通过话题，服务或参数服务器与其他进程（节点）通信。  
+ROS被设计为细粒度的模块化的系统：一个机器人控制系统通常有很多节点主持人组成。  
+ ROS通过使用节点将代码和功能解耦，提高了系统容错能力和可维护性，使系统简化。
+1.2 话题（topic）话题是节点间数据传输的总线。通过主题进行消息交流，不需要直">
+<meta property="og:updated_time" content="2017-04-13T10:33:26.478Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WUST_ROS教程（3）---关于话题和节点">
+<meta name="twitter:description" content="1 名词解释1.1 节点（node）节点都是各自独立的可执行文件。它主要执行计算处理，能够通过话题，服务或参数服务器与其他进程（节点）通信。  
+ROS被设计为细粒度的模块化的系统：一个机器人控制系统通常有很多节点主持人组成。  
+ ROS通过使用节点将代码和功能解耦，提高了系统容错能力和可维护性，使系统简化。
+1.2 话题（topic）话题是节点间数据传输的总线。通过主题进行消息交流，不需要直">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":20,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6398282193310844000',
+      author: '左良玉'
+    },
+    algolia: {
+      applicationID: 'AL4G6YNGHU',
+      apiKey: 'ab3a6cff0fbcd6ebe3354f1b17e3df87',
+      indexName: 'zuoly',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"请输入关键字","hits_empty":"没有找到与【${query}】相关的内容","hits_stats":"${hits}条相关记录，共耗时 ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zuoly.me/2017/04/13/WUST_ROS 教程（3）---关于话题和节点/"/>
+
+
+
+
+
+  <title> WUST_ROS教程（3）---关于话题和节点 | 奔。 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6002a05060f0d4a8b0f714f0915468be";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1261547635&web_id=1261547635" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner">
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">奔。</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">To yearn<br>To hope<br>To nourish my soul with dreams</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+		
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+		
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+		
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+		
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+		
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+		
+      
+        
+        <li class="menu-item menu-item-board">
+          <a href="/board" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-comments"></i> <br />
+            
+            和我说点什么
+          </a>
+        </li>
+		
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+		  
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zuoly.me/2017/04/13/WUST_ROS 教程（3）---关于话题和节点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="左良玉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omwknzx14.bkt.clouddn.com/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="奔。">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                WUST_ROS教程（3）---关于话题和节点
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-13T10:24:14+08:00">
+                2017-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+		
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/我有一个geek梦/" itemprop="url" rel="index">
+                    <span itemprop="name">我有一个geek梦</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/13/WUST_ROS 教程（3）---关于话题和节点/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/13/WUST_ROS 教程（3）---关于话题和节点/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/04/13/WUST_ROS 教程（3）---关于话题和节点/" class="leancloud_visitors" data-flag-title="WUST_ROS教程（3）---关于话题和节点">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h4 id="1-名词解释"><a href="#1-名词解释" class="headerlink" title="1 名词解释"></a>1 名词解释</h4><h5 id="1-1-节点（node）"><a href="#1-1-节点（node）" class="headerlink" title="1.1 节点（node）"></a>1.1 节点（node）</h5><pre><code>节点都是各自独立的可执行文件。它主要执行计算处理，能够通过话题，服务或参数服务器与其他进程（节点）通信。  
+ROS被设计为细粒度的模块化的系统：一个机器人控制系统通常有很多节点主持人组成。  
+ ROS通过使用节点将代码和功能解耦，提高了系统容错能力和可维护性，使系统简化。
+</code></pre><h5 id="1-2-话题（topic）"><a href="#1-2-话题（topic）" class="headerlink" title="1.2 话题（topic）"></a>1.2 话题（topic）</h5><pre><code>话题是节点间数据传输的总线。通过主题进行消息交流，不需要直接交流。（彼此无直接联系）。  
+某个节点发送key strokes到一个话题上，与此同时，另外一个节点可以通过该话题获得key strokes。
+值得注意的是每个主题都是强类型的。  
+    1.2.1发布到主题上的消息必须与主题的ROS消息类型相匹配，并且节点只能接收类型匹配的消息。
+    1.2.2节点通信，必须具有相同的消息类型。
+</code></pre><h4 id="2-创建节点"><a href="#2-创建节点" class="headerlink" title="2 创建节点"></a>2 创建节点</h4><p>在编写节点之前，我们需要创建一个工作空间。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ mkdir -p catkin_ws/src 			//创建工作空间   		</div><div class="line">$ cd catkin/src					    // 进入该工作空间</div></pre></td></tr></table></figure></p>
+<p>创建一个包<br>命令格式：catkin_create_pkg <package_name> [depend1] [depend2] [depend3]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$catkin_create_pkg test_pkg std_msgs rospy roscpp</div></pre></td></tr></table></figure></package_name></p>
+<p>基本依赖项</p>
+<pre><code>&gt; std_msgs： 包含常见消息类型。
+&gt; * rospy：    ros的Python客户端库
+&gt; * roscpp：   使用c++实现各种ROS的各种功能。它提供了一个客户端库     
+</code></pre><p>编译工作空间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cd ..</div><div class="line">$ catkin_make</div><div class="line">$ ros</div></pre></td></tr></table></figure></p>
+<h5 id="2-1-创建发布者节点"><a href="#2-1-创建发布者节点" class="headerlink" title="2.1 创建发布者节点"></a>2.1 创建发布者节点</h5><p>在 cakin_ws/src/test_pkg/src目录下创建一个 talker.cpp<br>编写代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">#include &quot;ros/ros.h&quot;</div><div class="line">#include &quot;std_msgs/String.h&quot;</div><div class="line"></div><div class="line">#include &lt;sstream&gt;</div><div class="line"></div><div class="line">int main(int argc, char **argv)</div><div class="line">&#123;</div><div class="line">  //启动该节点，并设置名称(确保该名称唯一和格式合法)</div><div class="line">  ros::init(argc, argv, &quot;talker&quot;);</div><div class="line">  //设置该节点进程的句柄</div><div class="line">  ros::NodeHandle n;</div><div class="line">  //将该节点设置为发布者，并将所发布的话题的类型和名称告知节点管理器。 </div><div class="line">  //第一个参数为话题的名称，第二个参数为缓冲池的大小</div><div class="line">  ros::Publisher chatter_pub = n.advertise&lt;std_msgs::String&gt;(&quot;chatter&quot;, 1000);</div><div class="line">  //设置发布数据的频率</div><div class="line">  ros::Rate loop_rate(10);</div><div class="line"></div><div class="line">  int count = 0;</div><div class="line">  //当收到Ctrl + C 或者ROS停止当前节点运行时，ros：：ok（）将会返回false，导致循环结束</div><div class="line">  while (ros::ok())</div><div class="line">  &#123;</div><div class="line">  //创建一个消息变量，确保变量类型符合发送数据要求</div><div class="line">    std_msgs::String msg;</div><div class="line"></div><div class="line">    std::stringstream ss;</div><div class="line">    ss &lt;&lt; &quot;hello world &quot; &lt;&lt; count;</div><div class="line">    msg.data = ss.str();</div><div class="line">  //类似于print函数，将数据输出到屏幕</div><div class="line">    ROS_INFO(&quot;%s&quot;, msg.data.c_str());</div><div class="line">  //发送消息到话题</div><div class="line">    chatter_pub.publish(msg);</div><div class="line">  //如果有订阅者出现，ROS会更新和读取所有主题（在简单的程序中不是必须的）</div><div class="line">    ros::spinOnce();</div><div class="line">  //按照10hz将程序挂起</div><div class="line">    loop_rate.sleep();</div><div class="line">    ++count;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  return 0;</div><div class="line">&#125;</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<h5 id="2-2-创建接收者节点"><a href="#2-2-创建接收者节点" class="headerlink" title="2.2 创建接收者节点"></a>2.2 创建接收者节点</h5><pre><code>在 cakin_ws/src/test_pkg/src目录下创建一个 listener.cpp
+</code></pre><p>编写代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">#include &quot;ros/ros.h&quot;</div><div class="line">#include &quot;std_msgs/String.h&quot;</div><div class="line">//当该节点接收到新的消息时，调用该函数，用来处理数据</div><div class="line">void chatterCallback(const std_msgs::String::ConstPtr&amp; msg)</div><div class="line">&#123;</div><div class="line">  ROS_INFO(&quot;I heard: [%s]&quot;, msg-&gt;data.c_str());</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main(int argc, char **argv)</div><div class="line">&#123;</div><div class="line"></div><div class="line">  ros::init(argc, argv, &quot;listener&quot;);</div><div class="line">  ros::NodeHandle n;</div><div class="line">  //创建一个基于“chatter”话题的订阅者，缓冲池大小为1000，处理消息句柄的回调函数为chatterCallback</div><div class="line">  ros::Subscriber sub = n.subscribe(&quot;chatter&quot;, 1000, chatterCallback);</div><div class="line">  /**</div><div class="line">   * ros::spin() will enter a loop, pumping callbacks.  With this version, all</div><div class="line">   * callbacks will be called from within this thread (the main one).  ros::spin()</div><div class="line">   * will exit when Ctrl-C is pressed, or the node is shutdown by the master.</div><div class="line">   */</div><div class="line"> //ros::spin()库用于节点读取进入循环，调用回调函数。当ros::ok返回false，节点管理器会通知我们关闭该节点，当然我们也可以手动关闭该节点</div><div class="line">  ros::spin();</div><div class="line"></div><div class="line">  return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="3-编译节点"><a href="#3-编译节点" class="headerlink" title="3 编译节点"></a>3 编译节点</h4><p>打开包的 CMakeLists.txt文件，在文件末添加如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">include_directories(include $&#123;catkin_INCLUDE_DIRS&#125;)</div><div class="line"></div><div class="line">add_executable(talker src/talker.cpp)</div><div class="line">target_link_libraries(talker $&#123;catkin_LIBRARIES&#125;)</div><div class="line"></div><div class="line">add_executable(listener src/listener.cpp)</div><div class="line">target_link_libraries(listener $&#123;catkin_LIBRARIES&#125;)</div></pre></td></tr></table></figure></p>
+<p>编译节点<br>    $catkin_make</p>
+<h4 id="4-运行节点"><a href="#4-运行节点" class="headerlink" title="4 运行节点"></a>4 运行节点</h4><pre><code>$ roscore
+</code></pre><p>在不同的shell窗口下运行如下命令<br>    $cd catkin_ws<br>//将该工作空间加入ros的运行环境,环境变量配合<br>    $source devel/setup.bash<br>//一次性将该路径加入到.bashrc 自动执行   初始化环境变量   </p>
+<pre><code>$ echo &quot;source /opt/ros/indigo/setup.bash&quot; &gt;&gt; ~/.bashrc 
+$ echo &quot;source &quot;
+$ rosrun test_pkg talker
+$ rosrun test_pkg listener
+</code></pre><h4 id="5-常用工具"><a href="#5-常用工具" class="headerlink" title="5 常用工具"></a>5 常用工具</h4><pre><code>$ rosnode list
+$ rosnode info /[node_name]
+$ rostopic list
+$ rostopic info /[msg_name]
+$ rostopic type /[msg_name]
+$ rostopic echo /[pkg_name]/[node_name]
+$ rostopic pub [topic_name] [msg_type] [args]   
+</code></pre><hr>
+<p>参考文献：<a href="http://wiki.ros.org/ROS/Tutorials" target="_blank" rel="external">http://wiki.ros.org/ROS/Tutorials</a><br>　　　　　《ros机器人程序设计》 刘品杰      </p>
+<hr>
+<p>转载请注明出处，谢谢</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>愿你我在追梦路上相互搀扶！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://omwknzx14.bkt.clouddn.com/wxzhuanz.jpg" alt="左良玉 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://omwknzx14.bkt.clouddn.com/zhifb.jpg" alt="左良玉 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ros/" rel="tag"># ros</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/11/matlab gui 1/" rel="next" title="matlab gui 在指定位置显示图片和执行.m函数">
+                <i class="fa fa-chevron-left"></i> matlab gui 在指定位置显示图片和执行.m函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/07/Windows10-安装VC++6.0/" rel="prev" title="Windows10 安装VC++6.0">
+                Windows10 安装VC++6.0 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/04/13/WUST_ROS 教程（3）---关于话题和节点/"
+     data-title="WUST_ROS教程（3）---关于话题和节点"
+     data-content=""
+     data-url="http://zuoly.me/2017/04/13/WUST_ROS 教程（3）---关于话题和节点/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/04/13/WUST_ROS 教程（3）---关于话题和节点/"
+           data-title="WUST_ROS教程（3）---关于话题和节点" data-url="http://zuoly.me/2017/04/13/WUST_ROS 教程（3）---关于话题和节点/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omwknzx14.bkt.clouddn.com/touxiang.jpg"
+               alt="左良玉" />
+          <p class="site-author-name" itemprop="name">左良玉</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Ben940315" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5539808066/" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/zuo-liang-yu-62" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-名词解释"><span class="nav-number">1.</span> <span class="nav-text">1 名词解释</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-节点（node）"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 节点（node）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-话题（topic）"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 话题（topic）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-创建节点"><span class="nav-number">2.</span> <span class="nav-text">2 创建节点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-创建发布者节点"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 创建发布者节点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-创建接收者节点"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 创建接收者节点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-编译节点"><span class="nav-number">3.</span> <span class="nav-text">3 编译节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-运行节点"><span class="nav-number">4.</span> <span class="nav-text">4 运行节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-常用工具"><span class="nav-number">5.</span> <span class="nav-text">5 常用工具</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script type="text/javascript">
+ window.onload = function() {
+  var show = document.getElementById("show");
+  setInterval(function() {
+   var time = new Date();
+   // 程序计时的月从0开始取值后+1
+   var m = time.getMonth() + 1;
+   var t = "瘦小的屋子已经存活了"+(time.getFullYear()-2017) + "年" + (m-3) + "月"+ time.getDate() + "天 " + time.getHours() + "时"+ time.getMinutes() + "分" + time.getSeconds() + "秒";
+   show.innerHTML = t;
+  }, 1000);
+ };
+</script>
+
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">左良玉</span>
+  </br><span > 梦想没了行动，只会变成一场空想</span>
+</div>
+
+<div id="show"></div>
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=1.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=1.0.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=1.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=1.0.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=1.0.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=1.0.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=1.0.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zuoly"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("9eNXo2pQPRscGcUgjFQyPCx3-gzGzoHsz", "9YxdbiPaYeeeyFPlKd5BbOYI");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=1.0.0"></script>
+
+
+
+  
+    <script type="text/javascript" src="/js/src/exturl.js?v=1.0.0"></script>
+
+  
+  
+  	<!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("9eNXo2pQPRscGcUgjFQyPCx3-gzGzoHsz", "9YxdbiPaYeeeyFPlKd5BbOYI");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = $(document.getElementById(url)).text() + ': 0';
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+	});
+}
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+});
+</script>
+  
+</body>
+</html>
